@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#b87b72" />
+  <title>Bixie — Bisutería & Accesorios</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ════ NAVBAR ════ -->
+    <header class="navbar" id="navbar">
+      <div class="navbar-inner">
+        <div class="brand">
+          <span class="brand-name">bixie</span>
+          <span class="brand-sub">bisutería &amp; accesorios</span>
+        </div>
+        <nav class="nav-links" id="navLinks">
+          <button class="nav-btn active" data-view="catalogo">Catálogo</button>
+          <button class="nav-btn" data-view="admin" id="navAdmin" style="display:none">Panel</button>
+          <button class="nav-btn nav-login" id="navLoginBtn">Iniciar sesión</button>
+          <button class="nav-btn nav-logout" id="navLogoutBtn" style="display:none">Salir</button>
+        </nav>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ════ VISTA: CATÁLOGO PÚBLICO ════ -->
+    <section id="viewCatalogo" class="view active">
+
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-content">
+          <p class="hero-eyebrow">✦ Colección actual</p>
+          <h1 class="hero-title">Bisutería que<br><em>realza tu esencia</em></h1>
+          <p class="hero-sub">Pulseras · Aretes · Collares · Accesorios</p>
+        </div>
+        <div class="hero-deco">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 20 L120 80 L180 80 L135 115 L150 175 L100 140 L50 175 L65 115 L20 80 L80 80 Z"
+              fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="1.5"/>
+            <circle cx="100" cy="100" r="70" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filtros-bar" id="filtrosBar">
+        <div class="filtros-inner">
+          <div class="search-wrap">
+            <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="search" id="searchInput" placeholder="Buscar producto…" />
+          </div>
+          <div class="cat-pills" id="catPills">
+            <button class="pill active" data-cat="">Todo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carrusel / Grid -->
+      <div class="catalogo-wrap">
+        <div class="catalogo-grid" id="catalogoGrid">
+          <!-- Skeleton cargando -->
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+        <p class="empty-msg" id="emptyMsg" style="display:none">
+          No encontramos productos con ese filtro 🔍
+        </p>
+      </div>
+
+    </section>
+
+    <!-- ════ MODAL: DETALLE DE PRODUCTO ════ -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" id="modalProducto">
+        <button class="modal-close" id="modalClose">✕</button>
+        <div class="modal-img-wrap">
+          <img id="modalImg" src="" alt="" />
+          <span class="modal-badge" id="modalBadge"></span>
+        </div>
+        <div class="modal-body">
+          <p class="modal-cat" id="modalCat"></p>
+          <h2 class="modal-title" id="modalTitulo"></h2>
+          <p class="modal-desc" id="modalDesc"></p>
+          <p class="modal-precio" id="modalPrecio"></p>
+          <div class="modal-stock" id="modalStock"></div>
+
+          <!-- Formulario pedido -->
+          <div class="pedido-form" id="pedidoForm">
+            <h3 class="pedido-form-title">Realizar pedido</h3>
+            <div class="form-row">
+              <label>Tu nombre</label>
+              <input type="text" id="pedidoNombre" placeholder="¿Cómo te llamamos?" />
+            </div>
+            <div class="form-row">
+              <label>Cantidad</label>
+              <div class="qty-ctrl">
+                <button id="qtyMinus">−</button>
+                <span id="qtyVal">1</span>
+                <button id="qtyPlus">+</button>
+              </div>
+            </div>
+            <div class="form-row">
+              <label>Nota (opcional)</label>
+              <textarea id="pedidoNota" placeholder="Color preferido, talla, etc."></textarea>
+            </div>
+            <button class="btn-wa" id="btnPedirWa" disabled>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.824.486 3.533 1.332 5.012L2 22l5.143-1.311A9.967 9.967 0 0 0 11.999 22C17.523 22 22 17.523 22 12S17.523 2 11.999 2zm0 18.133a8.12 8.12 0 0 1-4.33-1.254l-.31-.183-3.053.779.806-2.967-.202-.32A8.134 8.134 0 1 1 11.999 20.133z"/></svg>
+              Pedir por WhatsApp
+            </button>
+            <p class="pedido-aviso">Al enviar, tu pieza quedará reservada mientras confirmamos tu pedido.</p>
+          </div>
+
+          <!-- Resultado del pedido -->
+          <div class="pedido-result" id="pedidoResult" style="display:none">
+            <div class="pedido-result-icon">✓</div>
+            <h3>¡Reserva creada!</h3>
+            <p id="resultFolio"></p>
+            <p class="result-sub">Haz clic en el botón para abrir WhatsApp y confirmar tu pedido con Bixie.</p>
+            <a class="btn-wa" id="resultWaLink" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.824.486 3.533 1.332 5.012L2 22l5.143-1.311A9.967 9.967 0 0 0 11.999 22C17.523 22 22 17.523 22 12S17.523 2 11.999 2zm0 18.133a8.12 8.12 0 0 1-4.33-1.254l-.31-.183-3.053.779.806-2.967-.202-.32A8.134 8.134 0 1 1 11.999 20.133z"/></svg>
+              Abrir WhatsApp
+            </a>
+            <button class="btn-outline" id="resultCerrar">Seguir viendo el catálogo</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ MODAL: LOGIN ════ -->
+    <div class="modal-overlay" id="loginOverlay">
+      <div class="modal modal-sm" id="loginModal">
+        <button class="modal-close" id="loginClose">✕</button>
+        <div class="modal-body">
+          <h2 class="modal-title" style="margin-bottom:6px">Acceso admin</h2>
+          <p style="font-size:12px;color:var(--text-light);margin-bottom:24px;letter-spacing:1px;text-transform:uppercase">bit3io · Bixie</p>
+          <div class="form-row">
+            <label>Usuario</label>
+            <input type="text" id="loginUser" autocomplete="username" />
+          </div>
+          <div class="form-row">
+            <label>Contraseña</label>
+            <input type="password" id="loginPass" autocomplete="current-password" />
+          </div>
+          <p class="form-error" id="loginError" style="display:none"></p>
+          <button class="btn-primary" id="loginSubmit">Entrar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ VISTA: PANEL ADMIN ════ -->
+    <section id="viewAdmin" class="view" style="display:none">
+      <div class="admin-wrap">
+
+        <!-- Tabs -->
+        <div class="admin-tabs">
+          <button class="tab-btn active" data-tab="pedidos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Pedidos
+            <span class="badge-count" id="pedidosBadge" style="display:none">0</span>
+          </button>
+          <button class="tab-btn" data-tab="productos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Productos
+          </button>
+          <button class="tab-btn" data-tab="reportes">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Reportes
+          </button>
+        </div>
+
+        <!-- ── TAB: PEDIDOS ── -->
+        <div class="tab-content active" id="tabPedidos">
+          <div class="tab-header">
+            <h2>Pedidos pendientes</h2>
+            <div class="tab-filters">
+              <button class="pill active" data-estado="">Todos</button>
+              <button class="pill" data-estado="stand_by">Stand-by</button>
+              <button class="pill" data-estado="confirmado">Confirmados</button>
+              <button class="pill" data-estado="cancelado">Cancelados</button>
+            </div>
+          </div>
+          <div class="pedidos-list" id="pedidosList">
+            <p class="empty-msg">Cargando pedidos…</p>
+          </div>
+        </div>
+
+        <!-- ── TAB: PRODUCTOS ── -->
+        <div class="tab-content" id="tabProductos" style="display:none">
+          <div class="tab-header">
+            <h2>Inventario</h2>
+            <button class="btn-primary btn-sm" id="btnNuevoProducto">+ Nuevo producto</button>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="adminTable">
+              <thead>
+                <tr>
+                  <th>Imagen</th>
+                  <th>Producto</th>
+                  <th>Categoría</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Reservado</th>
+                  <th>Disponible</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody">
+                <tr><td colspan="9" class="empty-msg">Cargando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ── TAB: REPORTES ── -->
+        <div class="tab-content" id="tabReportes" style="display:none">
+          <div class="tab-header"><h2>Resumen</h2></div>
+          <div class="stats-grid" id="statsGrid">
+            <div class="stat-card"><div class="stat-val" id="statProds">—</div><div class="stat-lbl">Productos activos</div></div>
+            <div class="stat-card"><div class="stat-val" id="statUnids">—</div><div class="stat-lbl">Unidades en stock</div></div>
+            <div class="stat-card"><div class="stat-val" id="statRes">—</div><div class="stat-lbl">En stand-by</div></div>
+            <div class="stat-card"><div class="stat-val" id="statVal">—</div><div class="stat-lbl">Valor inventario</div></div>
+          </div>
+
+          <h3 class="section-sub">Bajo stock</h3>
+          <div id="bajoStockList" class="mini-list"></div>
+
+          <h3 class="section-sub">Pedidos en stand-by</h3>
+          <div id="standByList" class="mini-list"></div>
+
+          <h3 class="section-sub">Últimos movimientos</h3>
+          <div id="movList" class="mini-list"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════ DRAWER: FORM PRODUCTO (nuevo/editar) ════ -->
+    <div class="drawer-overlay" id="drawerOverlay">
+      <div class="drawer" id="drawerProducto">
+        <div class="drawer-header">
+          <h3 id="drawerTitle">Nuevo producto</h3>
+          <button class="modal-close" id="drawerClose">✕</button>
+        </div>
+        <div class="drawer-body">
+          <div class="img-preview-wrap">
+            <img id="dpImgPreview" src="" alt="" style="display:none" />
+            <label class="img-upload-label" id="imgUploadLabel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <span>Subir imagen</span>
+              <input type="file" id="dpImgFile" accept="image/png,image/jpeg,image/webp" style="display:none"/>
+            </label>
+          </div>
+
+          <div class="form-row"><label>Nombre *</label><input type="text" id="dpNombre" /></div>
+          <div class="form-row"><label>Descripción</label><textarea id="dpDesc"></textarea></div>
+          <div class="form-grid2">
+            <div class="form-row">
+              <label>Categoría</label>
+              <select id="dpCat">
+                <option value="pulsera">Pulsera</option>
+                <option value="arete">Arete</option>
+                <option value="collar">Collar</option>
+                <option value="accesorio">Accesorio</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <div class="form-row"><label>Precio (MXN)</label><input type="number" id="dpPrecio" min="0" step="0.50" /></div>
+          </div>
+          <div class="form-grid2">
+            <div class="form-row"><label>Stock inicial</label><input type="number" id="dpStock" min="0" value="1" /></div>
+            <div class="form-row"><label>Stock mínimo</label><input type="number" id="dpStockMin" min="0" value="1" /></div>
+          </div>
+          <div class="form-row"><label>SKU (deja en blanco para generar)</label><input type="text" id="dpSku" placeholder="BX-0001" /></div>
+
+          <!-- Solo en edición: ajuste de stock -->
+          <div id="dpStockAjuste" style="display:none">
+            <hr style="border:none;border-top:1px solid var(--border);margin:16px 0"/>
+            <h4 style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:12px">Ajuste de stock</h4>
+            <div class="form-grid2">
+              <div class="form-row">
+                <label>Tipo</label>
+                <select id="dpAjusteTipo"><option value="entrada">+ Entrada</option><option value="ajuste">± Ajuste</option></select>
+              </div>
+              <div class="form-row"><label>Cantidad</label><input type="number" id="dpAjusteCant" value="1" /></div>
+            </div>
+            <div class="form-row"><label>Nota</label><input type="text" id="dpAjusteNota" placeholder="Ej: Reabastecimiento" /></div>
+            <button class="btn-outline btn-sm" id="btnAplicarAjuste">Aplicar ajuste de stock</button>
+          </div>
+
+          <p class="form-error" id="dpError" style="display:none"></p>
+          <div class="drawer-footer">
+            <button class="btn-outline" id="dpCancel">Cancelar</button>
+            <button class="btn-primary" id="dpGuardar">Guardar producto</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>Bixie · bisutería que realza tu esencia</p>
+      <p class="footer-dev">Sistema desarrollado por <strong>bit3io</strong></p>
+    </footer>
+
+  </div><!-- #app -->
+
+  <script src="/app.js"></script>
+</body>
+</html>

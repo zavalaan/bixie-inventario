@@ -1,0 +1,16 @@
+{
+  "name": "Bixie — Bisutería & Accesorios",
+  "short_name": "Bixie",
+  "description": "Catálogo y sistema de pedidos para Bixie bisutería",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdf6f4",
+  "theme_color": "#b87b72",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Ccircle cx='96' cy='96' r='96' fill='%23b87b72'/%3E%3Ctext x='96' y='130' text-anchor='middle' font-size='100' font-family='Georgia,serif' fill='%23fff'%3Eb%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: bixie-inventario
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: WA_NUMBER
+        value: 525665296109
+      - key: NODE_ENV
+        value: production
+    disk:
+      name: bixie-data
+      mountPath: /data
+      sizeGB: 1

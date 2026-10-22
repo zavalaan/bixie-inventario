@@ -1,0 +1,9 @@
+node_modules/
+bixie.db
+bixie.db-shm
+bixie.db-wal
+*.db
+*.db-shm
+*.db-wal
+.env
+.DS_Store
